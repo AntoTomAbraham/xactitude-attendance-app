@@ -14,13 +14,15 @@ import 'helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   await Firebase.initializeApp(
+  await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
     const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: Home()));
+      debugShowCheckedModeBanner: false,
+      home: Home(),
+    ),
+  );
 }
 
 class Home extends StatefulWidget {
@@ -31,7 +33,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var isLogin=false;
+  var isLogin = false;
 
   @override
   void initState() {
@@ -40,29 +42,29 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  isLogedin() async{
+  isLogedin() async {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if(user!=null && mounted){
+      if (user != null && mounted) {
         setState(() {
-          isLogin=true;
+          isLogin = true;
         });
-      }else{
+      } else {
         setState(() {
-            isLogin=false;
+          isLogin = false;
         });
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isLogin==false? Login():HomePage(),
+      body: isLogin == false ? Login() : HomePage(),
     );
   }
 }
 
-
-// Existing Code - Don't make any changes in this code  
+// Existing Code - Don't make any changes in this code
 class MyHome extends StatelessWidget {
   const MyHome({Key? key}) : super(key: key);
 
