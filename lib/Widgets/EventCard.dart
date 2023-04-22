@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ftest/main.dart';
 import '../Presentation/Participants/Participants.dart';
 import '../Presentation/Scanner/Scanner.dart';
 
 // ignore: must_be_immutable
-class EventCard extends StatelessWidget {
+class EventCard extends StatefulWidget {
   String imageUrl, eventName, departName, date, venue, time, description, id;
   bool button, isOpenForall;
-
   EventCard(
-      {required this.imageUrl,
+      {super.key,
+      required this.imageUrl,
       required this.eventName,
       required this.departName,
       required this.date,
@@ -19,277 +20,315 @@ class EventCard extends StatelessWidget {
       required this.button,
       required this.id,
       required this.isOpenForall});
+  @override
+  State<EventCard> createState() => _EventCardState();
+}
+
+class _EventCardState extends State<EventCard> {
+  var divider = Padding(
+    padding: EdgeInsets.only(left: 30.w, right: 30.w),
+    child: const Divider(
+      color: Color.fromRGBO(192, 192, 192, 1),
+      height: 10,
+    ),
+  );
+
+  var Leftspacer = SizedBox(
+    width: 30.w,
+  );
+
+  var sizedbox10 = SizedBox(height: 10.h);
 
   @override
   Widget build(BuildContext context) {
-    //return ScreenUtilInit(
-    //designSize: const Size(477, 500),
-    //splitScreenMode: true,
-    //builder: (context, child) {
-    return Container(
-      constraints: const BoxConstraints(minHeight: 0, maxHeight: 700.0),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(11)),
-        elevation: 30,
-        shadowColor: const Color.fromRGBO(0, 0, 0, 0.3),
-        child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Column(
-              children: [
-                Expanded(
-                    flex: 2,
-                    child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(11),
-                            topRight: Radius.circular(11)),
-                        //child: Image.asset('assets/xactitude.jpg'))
-                        child: Image.network(imageUrl))),
-                Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                eventName,
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(58, 58, 58, 1),
-                                    fontFamily: 'Inter',
-                                    height: 1.2,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                departName,
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(90, 90, 90, 1),
-                                    fontFamily: 'Inter',
-                                    height: 2,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400),
-                              )
-                            ],
-                          ),
-                          const Divider(
-                            color: Color.fromRGBO(192, 192, 192, 1),
-                            height: 22,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: const [
-                                  Text(
-                                    'Date: ',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    date,
-                                    textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          const Divider(
-                            color: Color.fromRGBO(192, 192, 192, 1),
-                            height: 22,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: const [
-                                  Text(
-                                    'Venue: ',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    venue,
-                                    textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          const Divider(
-                            color: Color.fromRGBO(192, 192, 192, 1),
-                            height: 22,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: const [
-                                  Text(
-                                    'Time: ',
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    time,
-                                    textAlign: TextAlign.right,
-                                    style: const TextStyle(
-                                        color: Color.fromRGBO(90, 90, 90, 1),
-                                        fontFamily: 'Inter',
-                                        height: 1.2,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w400),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * .8,
-                                height: MediaQuery.of(context).size.height * .1,
-                                child: Text(
-                                  description,
-                                  textAlign: TextAlign.justify,
-                                  style: const TextStyle(
-                                      color: Color.fromRGBO(90, 90, 90, 1),
-                                      fontFamily: 'Inter',
-                                      height: 1.2,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400),
-                                  overflow: TextOverflow.clip,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                    flex: 7,
-                                    child: ElevatedButton(
-                                      onPressed: button
-                                          ? () {
-                                              Navigator.of(context)
-                                                  .push(MaterialPageRoute(
-                                                builder: (context) => Scanner(
-                                                    eventID: id,
-                                                    isOpenForall: isOpenForall),
-                                              ));
-                                            }
-                                          : null,
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: const Color.fromRGBO(
-                                              29, 78, 216, 1),
-                                          disabledForegroundColor:
-                                              const Color.fromRGBO(
-                                                      29, 78, 216, 1)
-                                                  .withOpacity(0.38),
-                                          disabledBackgroundColor:
-                                              const Color.fromRGBO(
-                                                      29, 78, 216, 1)
-                                                  .withOpacity(0.12)),
-                                      child: const Text(
-                                        'Open Scanner',
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontFamily: 'Inter',
-                                            height: 1,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    )),
-                                const Spacer(
-                                  flex: 1,
-                                ),
-                                Expanded(
-                                    flex: 7,
-                                    child: ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) => Participants(
-                                              eventID: id,
-                                              isOpenForall: isOpenForall),
-                                        ));
-                                      },
-                                      style: const ButtonStyle(
-                                          backgroundColor:
-                                              MaterialStatePropertyAll(
-                                                  Color.fromRGBO(
-                                                      29, 78, 216, 1))),
-                                      child: const Text(
-                                        'View Participants',
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontFamily: 'Inter',
-                                            height: 1,
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ))
-                              ],
-                            ),
-                          )
-                        ],
+    return SizedBox(
+      height: 950.h,
+      child: Padding(
+        padding: EdgeInsets.all(15.w),
+        child: Card(
+          shadowColor: Colors.grey.shade100,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 5,
+          color: Colors.white,
+          child: Column(
+            children: [
+              ClipRRect(
+                // Backdrop image
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                child: Image.network(widget.imageUrl),
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              Row(
+                //Event Name row
+                children: [
+                  Leftspacer,
+                  Text(
+                    widget.eventName,
+                    style: TextStyle(
+                        color: const Color.fromRGBO(58, 58, 58, 1),
+                        fontFamily: 'Inter',
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                // Department Row
+                children: [
+                  Leftspacer,
+                  Text(
+                    "Department of ${widget.departName}",
+                    style: TextStyle(
+                        color: const Color.fromRGBO(90, 90, 90, 1),
+                        fontFamily: 'Inter',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              sizedbox10,
+              divider,
+              sizedbox10,
+              Row(
+                // Date Row
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.w),
+                        child: Text(
+                          'Date ',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
-                    ))
-              ],
-            )),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 30.w),
+                        child: Text(
+                          widget.date,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              sizedbox10,
+              divider,
+              sizedbox10,
+              Row(
+                // Venue Row
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.w),
+                        child: Text(
+                          'Venue ',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 30.w),
+                        child: Text(
+                          widget.venue,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              sizedbox10,
+              divider,
+              sizedbox10,
+              Row(
+                // Time Row
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: 30.w),
+                        child: Text(
+                          'Time ',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 30.w),
+                        child: Text(
+                          widget.time,
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              color: const Color.fromRGBO(90, 90, 90, 1),
+                              fontFamily: 'Inter',
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              sizedbox10,
+              divider,
+              sizedbox10,
+              Row(
+                //Event Name row
+                children: [
+                  Leftspacer,
+                  Text(
+                    "Description",
+                    style: TextStyle(
+                        color: const Color.fromRGBO(58, 58, 58, 1),
+                        fontFamily: 'Inter',
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              sizedbox10,
+              Row(
+                //Event Name row
+                children: [
+                  Leftspacer,
+                  SizedBox(
+                    width: 450.w,
+                    height: 100.h,
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Text(
+                        widget.description,
+                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            color: const Color.fromRGBO(58, 58, 58, 1),
+                            fontFamily: 'Inter',
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 50.h,
+              ),
+              Row(
+                // Time Row
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(left: 30.w),
+                          child: ElevatedButton(
+                            onPressed: widget.button
+                                ? () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => Scanner(
+                                          eventID: widget.id,
+                                          isOpenForall: widget.isOpenForall),
+                                    ));
+                                  }
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                                fixedSize: Size(200.w, 50.h),
+                                backgroundColor:
+                                    const Color.fromRGBO(29, 78, 216, 1)),
+                            child: Text(
+                              'Open Scanner',
+                              style: TextStyle(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  fontFamily: 'Inter',
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          )),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 30.w),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Participants(
+                                  eventID: widget.id,
+                                  isOpenForall: widget.isOpenForall),
+                            ));
+                          },
+                          style: ElevatedButton.styleFrom(
+                              fixedSize: Size(200.w, 50.h),
+                              backgroundColor:
+                                  const Color.fromRGBO(29, 78, 216, 1)),
+                          child: Text(
+                            'View Participants',
+                            style: TextStyle(
+                                color: const Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'Inter',
+                                fontSize: 20.sp,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
-  //);
-  //}
 }

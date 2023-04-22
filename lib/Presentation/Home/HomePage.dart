@@ -1,11 +1,10 @@
 // ignore_for_file: avoid_print
-
-import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ftest/Presentation/Participants/Participants.dart';
 import 'package:ftest/Presentation/Scanner/Scanner.dart';
 import 'package:ftest/Widgets/EventCard.dart';
@@ -17,89 +16,94 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Navigator.pop(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Home',
-          style: TextStyle(color: Colors.black),
-        ),
-        iconTheme: const IconThemeData(color: Colors.black),
-      ),
-      drawer: Drawer(
-        backgroundColor: Colors.black,
-        child: AppDrawer(
-          fAuth: FirebaseAuth.instance,
-          pageTitle: "Home",
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: SizedBox(
-          height: double.infinity,
-          child: StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection('Event')
-                .where('coordinators',
-                    arrayContains: FirebaseAuth.instance.currentUser!.email)
-                .snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (!snapshot.hasData) {
-                return Container();
-              } else if (snapshot.hasData) {
-                bool button;
-                return ListView(
-                    physics: const BouncingScrollPhysics(),
-                    children: snapshot.data!.docs.map((e) {
-                      print(e);
-                      String eventTense = checkDate(e['eventDate']);
-                      if (!DateTime.fromMillisecondsSinceEpoch(
-                              e["endTime"] >= 1000000000
-                                  ? e["endTime"]
-                                  : e["endTime"] * 1000)
-                          .isBefore(DateTime.now())) {
-                        //if (eventTense != "past"){
-                        print(eventTense);
-                        List l = checkTime(e['startTime'], e['endTime']);
-                        if ((eventTense == "today" && l[1] == "over") ==
-                            false) {
-                          if (eventTense == "future") {
-                            button = false;
-                          } else if (l[1] == "pending") {
-                            button = false;
-                          } else {
-                            button = true;
-                          }
-                          return EventCard(
-                              isOpenForall: e['openForAll'],
-                              imageUrl: e['backDrop'],
-                              eventName: e['eventName'],
-                              departName: e['deptName'],
-                              date: e['eventDate'],
-                              venue: e['venue'],
-                              time: l[1],
-                              description: e['description'],
-                              button: DateTime.fromMillisecondsSinceEpoch(
-                                          e['startTime'])
-                                      .isBefore(DateTime.now()) &&
-                                  DateTime.fromMillisecondsSinceEpoch(
-                                          e['endTime'])
-                                      .isAfter(DateTime.now()),
-                              id: e.id);
-                        }
-                      }
-                      return const SizedBox();
-                    }).toList());
-              } else {
-                return Container();
-              }
-            },
+    return ScreenUtilInit(
+      designSize: const Size(555, 1200),
+      builder: (context, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Home',
+              style: TextStyle(color: Colors.black),
+            ),
+            iconTheme: const IconThemeData(color: Colors.black),
           ),
-        ),
-      ),
-      //)
+          drawer: Drawer(
+            backgroundColor: Colors.black,
+            child: AppDrawer(
+              fAuth: FirebaseAuth.instance,
+              pageTitle: "Home",
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(2),
+            child: SizedBox(
+              height: double.infinity,
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('Event')
+                    .where('coordinators',
+                        arrayContains: FirebaseAuth.instance.currentUser!.email)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (!snapshot.hasData) {
+                    return Container();
+                  } else if (snapshot.hasData) {
+                    bool button;
+                    return ListView(
+                        physics: const BouncingScrollPhysics(),
+                        children: snapshot.data!.docs.map((e) {
+                          print(e);
+                          String eventTense = checkDate(e['eventDate']);
+                          if (!DateTime.fromMillisecondsSinceEpoch(
+                                  e["endTime"] >= 1000000000
+                                      ? e["endTime"]
+                                      : e["endTime"] * 1000)
+                              .isBefore(DateTime.now())) {
+                            //if (eventTense != "past"){
+                            print(eventTense);
+                            List l = checkTime(e['startTime'], e['endTime']);
+                            if ((eventTense == "today" && l[1] == "over") ==
+                                false) {
+                              if (eventTense == "future") {
+                                button = false;
+                              } else if (l[1] == "pending") {
+                                button = false;
+                              } else {
+                                button = true;
+                              }
+                              return EventCard(
+                                  isOpenForall: e['openForAll'],
+                                  imageUrl: e['backDrop'],
+                                  eventName: e['eventName'],
+                                  departName: e['deptName'],
+                                  date: e['eventDate'],
+                                  venue: e['venue'],
+                                  time: l[1],
+                                  description: e['description'],
+                                  button: DateTime.fromMillisecondsSinceEpoch(
+                                              e['startTime'])
+                                          .isBefore(DateTime.now()) &&
+                                      DateTime.fromMillisecondsSinceEpoch(
+                                              e['endTime'])
+                                          .isAfter(DateTime.now()),
+                                  id: e.id);
+                            }
+                          }
+                          return const SizedBox();
+                        }).toList());
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ),
+          ),
+          //)
+        );
+      },
     );
   }
 
