@@ -63,11 +63,11 @@ class _ParticipantsState extends State<Participants> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-       backgroundColor: Color(0xff1D4ED8),
-        onPressed: () => getCSV(),
-        child: const Icon(Icons.download),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //  backgroundColor: Color(0xff1D4ED8),
+      //   onPressed: () => getCSV(),
+      //   child: const Icon(Icons.download),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
