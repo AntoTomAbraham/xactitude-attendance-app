@@ -53,12 +53,34 @@ class _EventCardState extends State<EventCard> {
           color: Colors.white,
           child: Column(
             children: [
-              ClipRRect(
-                // Backdrop image
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-                child: Image.network(widget.imageUrl),
+              Expanded(
+                // takes possible vertical height
+                child: Row(
+                  children: [
+                    Expanded(
+                      // take possible horizontal height
+                      child: SizedBox(
+                        height: 500
+                            .h, // beyound certain amount which makes the image stay inside the possible vertical and horizontal limits
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10)),
+                          child: Image.network(
+                            widget.imageUrl,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return const Center(child: Text("Loading.."));
+                            }, // lets the image clip and zoom
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 30.h,
@@ -251,7 +273,7 @@ class _EventCardState extends State<EventCard> {
                         style: TextStyle(
                             color: const Color.fromRGBO(58, 58, 58, 1),
                             fontFamily: 'Inter',
-                            fontSize: 18.sp,
+                            fontSize: 15.sp,
                             fontWeight: FontWeight.w400),
                       ),
                     ),
@@ -259,7 +281,7 @@ class _EventCardState extends State<EventCard> {
                 ],
               ),
               SizedBox(
-                height: 50.h,
+                height: 40.h,
               ),
               Row(
                 // Time Row
@@ -285,7 +307,7 @@ class _EventCardState extends State<EventCard> {
                                 backgroundColor:
                                     const Color.fromRGBO(29, 78, 216, 1)),
                             child: Text(
-                              'Open Scanner',
+                              'Scanner',
                               style: TextStyle(
                                   color: const Color.fromRGBO(255, 255, 255, 1),
                                   fontFamily: 'Inter',
@@ -312,7 +334,7 @@ class _EventCardState extends State<EventCard> {
                               backgroundColor:
                                   const Color.fromRGBO(29, 78, 216, 1)),
                           child: Text(
-                            'View Participants',
+                            'Participants',
                             style: TextStyle(
                                 color: const Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Inter',
@@ -325,6 +347,9 @@ class _EventCardState extends State<EventCard> {
                   )
                 ],
               ),
+              SizedBox(
+                height: 40.h,
+              )
             ],
           ),
         ),
